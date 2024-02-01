@@ -1,6 +1,8 @@
+package account;
+
 import java.time.LocalDate;
 
-public class SalaryAccount extends Account {
+class SalaryAccount extends Account {
 
 
     static Account getSalaryAccount(String name, int accountNumber, LocalDate dateOfCreation, double balance) {

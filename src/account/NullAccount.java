@@ -1,3 +1,5 @@
+package account;
+
 public class NullAccount extends Account{
 
     public NullAccount() {

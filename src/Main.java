@@ -1,3 +1,5 @@
+import account.AccountType;
+
 import java.time.LocalDate;
 import java.util.Scanner;
 
@@ -24,10 +26,10 @@ public class Main {
             switch (choice) {
                 case 1 -> {
                     System.out.println("Enter the type of account you want to create:");
-                    // the list below should be in accordance with the enum AccountType
-                    System.out.println("\t1. Current Account");
-                    System.out.println("\t2. Savings Account");
-                    System.out.println("\t3. Salary Account");
+                    // the list below should be in accordance with the enum account.AccountType
+                    System.out.println("\t1. Current account");
+                    System.out.println("\t2. Savings account");
+                    System.out.println("\t3. Salary account");
                     int accountTypeInput = scanner.nextInt();
                     AccountType accountType = accountTypeInput == 1 ? AccountType.CURRENT :
                             accountTypeInput == 2 ? AccountType.SAVINGS : AccountType.SALARY;

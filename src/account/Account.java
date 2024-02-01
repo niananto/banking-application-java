@@ -1,3 +1,5 @@
+package account;
+
 import java.time.LocalDate;
 
 public abstract class Account {
@@ -15,7 +17,7 @@ public abstract class Account {
 
     @Override
     public String toString() {
-        return "Account{" +
+        return "account.Account{" +
                 "name='" + name + '\'' +
                 ", accountNumber=" + accountNumber +
                 ", dateOfCreation=" + dateOfCreation +

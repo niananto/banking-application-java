@@ -1,6 +1,8 @@
+package account;
+
 import java.time.LocalDate;
 
-public class SavingsAccount extends Account {
+class SavingsAccount extends Account {
 
     private static final double SAVINGS_ACCOUNT_MIN_BALANCE = 1000;
 
