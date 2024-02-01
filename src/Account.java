@@ -37,7 +37,7 @@ public abstract class Account {
         return true;
     }
 
-    public Boolean withdraw(double withdrawAmount) {
+    protected Boolean withdrawBasicChecks(double withdrawAmount) {
         if (withdrawAmount < 0) {
             System.out.println("Withdraw amount cannot be negative");
             return false;
@@ -46,8 +46,8 @@ public abstract class Account {
             System.out.println("Withdraw amount cannot be greater than balance");
             return false;
         }
-        this.balance -= withdrawAmount;
-        System.out.println("Withdrew " + withdrawAmount + " from account " + this.accountNumber);
         return true;
     }
+
+    public abstract Boolean withdraw(double withdrawAmount);
 }

@@ -18,4 +18,18 @@ public class SavingsAccount extends Account {
         System.out.println(this);
     }
 
+    @Override
+    public Boolean withdraw(double withdrawAmount) {
+        if (!this.withdrawBasicChecks(withdrawAmount)) {
+            return false;
+        }
+        if ((this.balance - withdrawAmount) < SAVINGS_ACCOUNT_MIN_BALANCE) {
+            System.out.println("Savings account balance cannot go below " + SAVINGS_ACCOUNT_MIN_BALANCE);
+            System.out.println("Savings account balance is " + this.balance);
+            return false;
+        }
+        this.balance -= withdrawAmount;
+        System.out.println("Withdrew " + withdrawAmount + " from account " + this.accountNumber);
+        return true;
+    }
 }

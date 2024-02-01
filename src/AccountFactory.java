@@ -4,8 +4,8 @@ public class AccountFactory {
 
 
     public Account getAccount(AccountType accountType, String name, int accountNumber, LocalDate dateOfCreation, double initialBalance) {
-        if (name.isBlank() || initialBalance < 0) {
-            System.out.println("Invalid name or initial balance");
+        if (initialBalance < 0) {
+            System.out.println("Initial balance cannot be negative");
             return new NullAccount();
         }
 

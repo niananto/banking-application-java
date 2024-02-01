@@ -17,4 +17,19 @@ class CurrentAccount extends Account {
         System.out.println("Created a current account");
         System.out.println(this);
     }
+
+    @Override
+    public Boolean withdraw(double withdrawAmount) {
+        if (!this.withdrawBasicChecks(withdrawAmount)) {
+            return false;
+        }
+        if ((this.balance - withdrawAmount) < CURRENT_ACCOUNT_MIN_BALANCE) {
+            System.out.println("Current account balance cannot go below " + CURRENT_ACCOUNT_MIN_BALANCE);
+            System.out.println("Current account balance is " + this.balance);
+            return false;
+        }
+        this.balance -= withdrawAmount;
+        System.out.println("Withdrew " + withdrawAmount + " from account " + this.accountNumber);
+        return true;
+    }
 }
