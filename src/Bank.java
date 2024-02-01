@@ -1,83 +1,89 @@
-import java.util.Scanner;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Bank {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-//        Bank bank = new Bank();
 
-        while (true) {
-            System.out.println("Choose an option:");
-            System.out.println("1. Create a new account");
-            System.out.println("2. Display all accounts");
-            System.out.println("3. Update an account");
-            System.out.println("4. Delete an account");
-            System.out.println("5. Deposit an amount");
-            System.out.println("6. Withdraw an amount");
-            System.out.println("7. Search for an account");
-            System.out.println("8. Exit");
+    private static Bank bank = null;
 
-            int choice = scanner.nextInt();
+    public static Bank getInstance() {
+        if (bank == null) bank = new Bank();
+        return bank;
+    }
 
-            switch (choice) {
-                case 1:
-                    System.out.println("Enter name:");
-                    String name = scanner.next();
-                    System.out.println("Enter account number:");
-                    int number = scanner.nextInt();
-                    System.out.println("Enter creation date:");
-                    String creationDate = scanner.next();
-                    System.out.println("Enter initial balance:");
-                    double initialBalance = scanner.nextDouble();
-//                    bank.createAccount(name, number, creationDate, initialBalance);
-                    break;
+    private static int accountNumber = 0;
+    private HashMap<Integer, Account> accounts = new HashMap<>();
+    private AccountFactory accountFactory = new AccountFactory();
 
-                case 2:
-//                    bank.displayAllAccounts();
-                    break;
+    private Bank() {}
 
-                case 3:
-                    System.out.println("Enter account number to update:");
-                    int accountToUpdate = scanner.nextInt();
-                    System.out.println("Enter new balance:");
-                    double newBalance = scanner.nextDouble();
-//                    bank.updateAccount(accountToUpdate, newBalance);
-                    break;
-
-                case 4:
-                    System.out.println("Enter account number to delete:");
-                    int accountToDelete = scanner.nextInt();
-//                    bank.deleteAccount(accountToDelete);
-                    break;
-
-                case 5:
-                    System.out.println("Enter account number to deposit:");
-                    int accountToDeposit = scanner.nextInt();
-                    System.out.println("Enter amount to deposit:");
-                    double depositAmount = scanner.nextDouble();
-//                    bank.deposit(accountToDeposit, depositAmount);
-                    break;
-
-                case 6:
-                    System.out.println("Enter account number to withdraw:");
-                    int accountToWithdraw = scanner.nextInt();
-                    System.out.println("Enter amount to withdraw:");
-                    double withdrawAmount = scanner.nextDouble();
-//                    bank.withdraw(accountToWithdraw, withdrawAmount);
-                    break;
-
-                case 7:
-                    System.out.println("Enter account number to search:");
-                    int accountToSearch = scanner.nextInt();
-//                    bank.searchAccount(accountToSearch);
-                    break;
-
-                case 8:
-                    System.out.println("Exiting application.");
-                    System.exit(0);
-
-                default:
-                    System.out.println("Invalid choice. Please enter a number between 1 and 8.");
-            }
+    public void createAccount(AccountType accountType, String name, LocalDate dateOfCreation, double initialBalance) {
+        Account account = accountFactory.getAccount(accountType, name, accountNumber++, dateOfCreation, initialBalance);
+        if (account instanceof NullAccount) {
+            System.out.println("Account creation failed");
+            return;
         }
+        accounts.put(accountNumber, account);
+    }
+
+    public void displayAllAccounts() {
+        System.out.println("Total number of accounts: " + accounts.size());
+        for (Account account : accounts.values()) {
+            System.out.println(account);
+        }
+    }
+
+    public Boolean updateAccount(int accountToUpdate, String newName) {
+        Account account = accounts.get(accountToUpdate);
+        if (account == null) {
+            System.out.println("Account with account number " + accountToUpdate + " does not exist");
+            return false;
+        }
+        account.setName(newName);
+        System.out.println("Updated account: " + accountToUpdate);
+        return true;
+    }
+
+
+    public Boolean deleteAccount(int accountToDelete) {
+        Account account = accounts.get(accountToDelete);
+        if (account == null) {
+            System.out.println("Account with account number " + accountToDelete + " does not exist");
+            return false;
+        }
+        accounts.remove(accountToDelete);
+        System.out.println("Deleted account: " + accountToDelete);
+        return true;
+    }
+
+    public Boolean deposit(int accountToDeposit, double depositAmount) {
+        Account account = accounts.get(accountToDeposit);
+        if (account == null) {
+            System.out.println("Account with account number " + accountToDeposit + " does not exist");
+            return false;
+        }
+        return account.deposit(depositAmount);
+    }
+
+    public Boolean withdraw(int accountToWithdraw, double withdrawAmount) {
+        if (withdrawAmount < 0) {
+            System.out.println("Withdraw amount cannot be negative");
+            return false;
+        }
+        Account account = accounts.get(accountToWithdraw);
+        if (account == null) {
+            System.out.println("Account with account number " + accountToWithdraw + " does not exist");
+            return false;
+        }
+        return account.withdraw(withdrawAmount);
+    }
+
+    public void searchAccount(int accountToSearch) {
+        Account account = accounts.get(accountToSearch);
+        if (account == null) {
+            System.out.println("Account with account number " + accountToSearch + " does not exist");
+            return;
+        }
+        System.out.println(account);
     }
 }
